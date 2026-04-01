@@ -109,13 +109,15 @@
     .section-head { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; }
     .section-head h2 { font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.08; letter-spacing: -0.03em; }
     .section-head p { max-width: 60ch; color: var(--muted); }
-    .grid-3, .grid-4, .pricing-grid, .steps, .contact-grid, .social-grid { display: grid; gap: 20px; }
+    .grid-3, .grid-4, .pricing-grid, .steps, .contact-grid, .social-grid, .packages-grid, .equipment-grid { display: grid; gap: 20px; }
     .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .pricing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
     .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .contact-grid { grid-template-columns: 1fr 0.95fr; }
     .social-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .packages-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .equipment-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 26px; box-shadow: var(--shadow); }
     .card h3 { font-size: 1.28rem; margin-bottom: 10px; }
     .card p, .card li { color: var(--muted); }
@@ -123,16 +125,25 @@
       width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; margin-bottom: 18px;
       background: rgba(15,118,110,0.10); color: var(--brand); font-size: 1.35rem;
     }
-    .estimate-card {
-      background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(15,118,110,0.10));
-      border: 1px solid rgba(15,118,110,0.08);
+    .package-card { position: relative; overflow: hidden; }
+    .package-card.featured { border-color: rgba(245,158,11,0.28); background: linear-gradient(180deg, #fff8ea, #ffffff); }
+    .package-tag {
+      display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: rgba(15,118,110,0.10);
+      color: var(--brand); font-size: 0.84rem; font-weight: 700; margin-bottom: 14px;
     }
-    .estimate-list { list-style: none; display: grid; gap: 14px; margin-top: 18px; }
+    .package-card.featured .package-tag { background: rgba(245,158,11,0.14); color: #9a6700; }
+    .package-list, .equipment-list, .estimate-list { list-style: none; display: grid; gap: 12px; margin-top: 18px; }
+    .package-list li, .equipment-list li { display: flex; gap: 12px; align-items: start; }
+    .package-list i, .equipment-list i, .list i { color: var(--leaf); margin-top: 4px; }
+    .estimate-card { background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(15,118,110,0.10)); border: 1px solid rgba(15,118,110,0.08); }
     .estimate-list li {
-      display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(23,33,43,0.08);
-      font-weight: 600;
+      display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(23,33,43,0.08); font-weight: 600;
     }
     .estimate-list li span:last-child { color: var(--brand); }
+    .equipment-card { background: linear-gradient(180deg, #ffffff, #f7fbf8); }
+    .availability-card { background: linear-gradient(180deg, #15222f, #0f1720); color: #fff; }
+    .availability-card p, .availability-card li { color: rgba(255,255,255,0.78); }
+    .availability-time { font-size: 2rem; font-weight: 800; line-height: 1.05; margin-top: 10px; }
     .social-card { text-align: center; padding: 24px 18px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
     .social-card:hover { transform: translateY(-4px); }
     .social-icon {
@@ -154,14 +165,8 @@
     .small { color: var(--muted); font-size: 0.95rem; }
     .list { list-style: none; margin-top: 18px; display: grid; gap: 12px; }
     .list li { display: flex; gap: 12px; align-items: start; }
-    .list i { color: var(--leaf); margin-top: 4px; }
-    .band {
-      background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(15,118,110,0.10)); border: 1px solid rgba(15,118,110,0.08);
-      border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow);
-    }
-    .step-no {
-      width: 42px; height: 42px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-weight: 800; margin-bottom: 14px;
-    }
+    .band { background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(15,118,110,0.10)); border: 1px solid rgba(15,118,110,0.08); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow); }
+    .step-no { width: 42px; height: 42px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-weight: 800; margin-bottom: 14px; }
     .contact-panel { background: linear-gradient(180deg, #15222f, #0f1720); color: #fff; }
     .contact-panel p, .contact-panel li { color: rgba(255,255,255,0.76); }
     .contact-stack { display: grid; gap: 16px; margin-top: 22px; }
@@ -179,7 +184,7 @@
       background: #25d366; color: #fff; box-shadow: 0 18px 30px rgba(37,211,102,0.25); z-index: 45; font-size: 1.5rem;
     }
     @media (max-width: 980px) {
-      .hero-grid, .contact-grid, .pricing-grid, .grid-3, .grid-4, .steps, .social-grid { grid-template-columns: 1fr; }
+      .hero-grid, .contact-grid, .pricing-grid, .grid-3, .grid-4, .steps, .social-grid, .packages-grid, .equipment-grid { grid-template-columns: 1fr; }
       .price-card.featured { transform: none; }
     }
     @media (max-width: 820px) {
@@ -211,8 +216,8 @@
       <nav id="siteNav">
         <ul>
           <li><a href="#services">Services</a></li>
+          <li><a href="#packages">Packages</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#benefits">Benefits</a></li>
           <li><a href="#social">Social</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a class="nav-cta" href="https://wa.me/923003732537?text=Assalamualaikum!%20Mujhe%20solar%20panel%20cleaning%20service%20chahiye." target="_blank" rel="noopener">WhatsApp Now</a></li>
@@ -247,7 +252,7 @@
             <div class="stats">
               <div class="card"><strong>Rs. 100</strong><span>per panel starting rate</span></div>
               <div class="card"><strong>7 Days</strong><span>weekly availability</span></div>
-              <div class="card"><strong>8 AM - 8 PM</strong><span>contact hours</span></div>
+              <div class="card"><strong>6 AM - 9 PM</strong><span>contact hours</span></div>
             </div>
           </div>
         </aside>
@@ -264,6 +269,61 @@
           <article class="card"><div class="icon-chip"><i class="fa-solid fa-house"></i></div><h3>Residential Cleaning</h3><p>Ideal for homes and small buildings that need regular panel maintenance and cleaner performance.</p></article>
           <article class="card"><div class="icon-chip"><i class="fa-solid fa-building"></i></div><h3>Commercial Service</h3><p>Support for offices, plazas, shops, and larger installations where presentation and energy output both matter.</p></article>
           <article class="card"><div class="icon-chip"><i class="fa-solid fa-industry"></i></div><h3>Industrial Sites</h3><p>Cleaning solutions for factory and industrial rooftops with larger systems and scheduled visits.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="packages">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Our Cleaning Packages</h2></div>
+          <p>Choose the cleaning plan that matches your panel condition, property type, and maintenance needs.</p>
+        </div>
+        <div class="packages-grid">
+          <article class="card package-card">
+            <div class="package-tag"><i class="fa-solid fa-calendar-days"></i> 15 Days Cleaning Plan</div>
+            <h3>Bi-Weekly Care</h3>
+            <p>Ideal for areas with moderate dust accumulation.</p>
+            <ul class="package-list">
+              <li><i class="fa-solid fa-circle-check"></i><span>Bi-weekly cleaning schedule</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Dust and light debris removal</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Performance check report</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>10% discount on next service</span></li>
+            </ul>
+          </article>
+          <article class="card package-card featured">
+            <div class="package-tag"><i class="fa-solid fa-star"></i> 30 Days Cleaning Plan</div>
+            <h3>Most Popular</h3>
+            <p>Best fit for residential properties that need regular maintenance.</p>
+            <ul class="package-list">
+              <li><i class="fa-solid fa-circle-check"></i><span>Monthly cleaning schedule</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Complete dust and debris removal</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Bird dropping cleaning</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>15% discount on next service</span></li>
+            </ul>
+          </article>
+          <article class="card package-card">
+            <div class="package-tag"><i class="fa-solid fa-soap"></i> Deep Cleaning Service</div>
+            <h3>Heavy Dirt Recovery</h3>
+            <p>For heavily soiled or neglected panels that need more than routine service.</p>
+            <ul class="package-list">
+              <li><i class="fa-solid fa-circle-check"></i><span>Specialized cleaning solutions</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Stubborn stain removal</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Panel efficiency test</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Protective coating application</span></li>
+            </ul>
+          </article>
+          <article class="card package-card">
+            <div class="package-tag"><i class="fa-solid fa-gem"></i> Super Cleaning Service</div>
+            <h3>Premium Protection</h3>
+            <p>Our premium service with added long-term care benefits.</p>
+            <ul class="package-list">
+              <li><i class="fa-solid fa-circle-check"></i><span>Everything in Deep Cleaning</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Anti-static treatment</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Water spot prevention</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>6-month maintenance guarantee</span></li>
+            </ul>
+          </article>
         </div>
       </div>
     </section>
@@ -305,6 +365,46 @@
               <li><span>Per Panel</span><span>Rs. 50 - 100</span></li>
               <li><span>5KW System</span><span>Rs. 2500 - 4000</span></li>
               <li><span>10KW System</span><span>Rs. 5000 - 8000</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="equipment">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Professional Equipment</h2></div>
+          <p>We use the right tools and methods to clean solar panels safely and effectively.</p>
+        </div>
+        <div class="equipment-grid">
+          <article class="card equipment-card">
+            <div class="icon-chip"><i class="fa-solid fa-faucet-drip"></i></div>
+            <h3>Cleaning Tools</h3>
+            <ul class="equipment-list">
+              <li><i class="fa-solid fa-circle-check"></i><span>High-Pressure Systems</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Soft-Brush Cleaners</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Microfiber Cloths</span></li>
+            </ul>
+          </article>
+          <article class="card equipment-card">
+            <div class="icon-chip"><i class="fa-solid fa-leaf"></i></div>
+            <h3>Safe Solutions</h3>
+            <ul class="equipment-list">
+              <li><i class="fa-solid fa-circle-check"></i><span>Eco-Friendly Solutions</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Water Filtration</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Water spot reduction</span></li>
+            </ul>
+          </article>
+          <article class="card availability-card">
+            <div class="icon-chip"><i class="fa-solid fa-clock"></i></div>
+            <h3>Availability</h3>
+            <div class="availability-time">6:00 AM - 9:00 PM</div>
+            <p>7 Days a Week</p>
+            <ul class="equipment-list">
+              <li><i class="fa-solid fa-circle-check"></i><span>Fast response for new inquiries</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Flexible scheduling for homes and businesses</span></li>
+              <li><i class="fa-solid fa-circle-check"></i><span>Efficiency Testers available when required</span></li>
             </ul>
           </article>
         </div>
@@ -388,7 +488,7 @@
           <div class="contact-stack">
             <div class="contact-item"><i class="fa-solid fa-phone"></i><div><strong>Phone</strong><p><a href="tel:03003732537">0300-3732537</a></p></div></div>
             <div class="contact-item"><i class="fa-brands fa-whatsapp"></i><div><strong>WhatsApp</strong><p><a href="https://wa.me/923003732537?text=Assalamualaikum!%20Mujhe%20solar%20panel%20cleaning%20service%20chahiye." target="_blank" rel="noopener">Start chat now</a></p></div></div>
-            <div class="contact-item"><i class="fa-solid fa-clock"></i><div><strong>Availability</strong><p>7 days a week, 8:00 AM to 8:00 PM</p></div></div>
+            <div class="contact-item"><i class="fa-solid fa-clock"></i><div><strong>Availability</strong><p>6:00 AM - 9:00 PM, 7 Days a Week</p></div></div>
             <div class="contact-item"><i class="fa-solid fa-location-dot"></i><div><strong>Coverage</strong><p>Karachi, for residential and commercial properties</p></div></div>
           </div>
           <div class="contact-actions">
@@ -410,9 +510,10 @@
                 <label for="serviceType">Service Type</label>
                 <select id="serviceType" name="serviceType" required>
                   <option value="">Select service</option>
-                  <option value="One-time cleaning">One-time cleaning</option>
-                  <option value="Regular cleaning plan">Regular cleaning plan</option>
-                  <option value="Residential cleaning">Residential cleaning</option>
+                  <option value="15 Days Cleaning Plan">15 Days Cleaning Plan</option>
+                  <option value="30 Days Cleaning Plan">30 Days Cleaning Plan</option>
+                  <option value="Deep Cleaning Service">Deep Cleaning Service</option>
+                  <option value="Super Cleaning Service">Super Cleaning Service</option>
                   <option value="Commercial or industrial quote">Commercial or industrial quote</option>
                 </select>
               </div>
