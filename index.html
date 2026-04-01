@@ -73,7 +73,7 @@
     .equipment{grid-template-columns:repeat(3,minmax(0,1fr))}
     .benefits{grid-template-columns:repeat(4,minmax(0,1fr))}
     .steps{grid-template-columns:repeat(4,minmax(0,1fr))}
-    .contact-grid{grid-template-columns:1fr .95fr}
+    .contact-grid{grid-template-columns:1fr .95fr;align-items:stretch}
     .difference-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .icon{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;margin-bottom:16px;background:rgba(15,118,110,.10);color:var(--brand);font-size:1.3rem}
     .package-tag{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:rgba(15,118,110,.10);color:var(--brand);font-size:.84rem;font-weight:700;margin-bottom:12px}
@@ -83,6 +83,14 @@
     .price{font-size:2.6rem;line-height:1;margin:16px 0 10px;letter-spacing:-.05em}
     .list{list-style:none;display:grid;gap:10px;margin-top:16px}
     .list li{display:flex;gap:10px}
+    .contact-card,.booking-card{height:100%;display:flex;flex-direction:column}
+    .contact-card h2,.booking-card h2{margin-top:16px}
+    .contact-card .contact-actions{margin-top:auto;padding-top:18px}
+    .contact-list{display:grid;gap:14px;margin-top:20px}
+    .contact-item{padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+    .contact-item strong{display:block;margin-bottom:4px}
+    .contact-item p{margin:0}
+    .booking-card form{margin-top:20px}
     .estimate-list{list-style:none;display:grid;gap:12px;margin-top:16px}
     .estimate-list li{display:flex;justify-content:space-between;gap:14px;padding-bottom:10px;border-bottom:1px solid rgba(23,33,43,.08);font-weight:600}
     .estimate-list span:last-child{color:var(--brand)}
@@ -315,20 +323,20 @@
 
     <section id="contact">
       <div class="container contact-grid">
-        <article class="card availability">
-          <div class="pill"><i class="fa-solid fa-phone-volume"></i> Contact Details</div>
+        <article class="card availability contact-card">
+          <div class="pill"><i class="fa-solid fa-phone-volume"></i> Contact Details.</div>
           <h2>Ready to book your solar cleaning service?</h2>
-          <div class="list">
-            <div><strong>Phone</strong><p><a href="tel:03003732537">0300-3732537</a></p></div>
-            <div><strong>WhatsApp</strong><p><a href="https://wa.me/923003732537?text=Assalamualaikum!%20Mujhe%20solar%20panel%20cleaning%20service%20chahiye." target="_blank" rel="noopener">Start chat now</a></p></div>
-            <div><strong>Coverage</strong><p>Karachi, residential and commercial properties</p></div>
+          <div class="contact-list">
+            <div class="contact-item"><strong>Phone</strong><p><a href="tel:03003732537">0300-3732537</a></p></div>
+            <div class="contact-item"><strong>WhatsApp</strong><p><a href="https://wa.me/923003732537?text=Assalamualaikum!%20Mujhe%20solar%20panel%20cleaning%20service%20chahiye." target="_blank" rel="noopener">Start chat now</a></p></div>
+            <div class="contact-item"><strong>Coverage</strong><p>Karachi, residential and commercial properties</p></div>
           </div>
           <div class="contact-actions">
             <a class="btn btn-whatsapp" href="https://wa.me/923003732537?text=Assalamualaikum!%20Mujhe%20solar%20panel%20cleaning%20service%20ke%20liye%20quote%20chahiye." target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Get Quote</a>
             <a class="btn btn-secondary" style="color:#000;font-weight:800" href="tel:03003732537"><i class="fa-solid fa-phone"></i> Call Now</a>
           </div>
         </article>
-        <article class="card" id="booking">
+        <article class="card booking-card" id="booking">
           <div class="pill"><i class="fa-solid fa-pen"></i> Booking Form</div>
           <h2>Send a booking request</h2>
           <form id="bookingForm">
