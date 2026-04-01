@@ -123,9 +123,17 @@
       width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; margin-bottom: 18px;
       background: rgba(15,118,110,0.10); color: var(--brand); font-size: 1.35rem;
     }
-    .social-card {
-      text-align: center; padding: 24px 18px; transition: transform 0.2s ease, box-shadow 0.2s ease;
+    .estimate-card {
+      background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(15,118,110,0.10));
+      border: 1px solid rgba(15,118,110,0.08);
     }
+    .estimate-list { list-style: none; display: grid; gap: 14px; margin-top: 18px; }
+    .estimate-list li {
+      display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(23,33,43,0.08);
+      font-weight: 600;
+    }
+    .estimate-list li span:last-child { color: var(--brand); }
+    .social-card { text-align: center; padding: 24px 18px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
     .social-card:hover { transform: translateY(-4px); }
     .social-icon {
       width: 58px; height: 58px; margin: 0 auto 14px; border-radius: 18px; display: grid; place-items: center;
@@ -185,6 +193,7 @@
       .hero-copy, .hero-visual, .card { padding: 24px; }
       .hero-points, .stats, .field-row { grid-template-columns: 1fr; }
       .brand-logo { width: 64px; height: 64px; border-radius: 18px; padding: 7px; }
+      .estimate-list li { flex-direction: column; gap: 6px; }
     }
   </style>
 </head>
@@ -288,15 +297,14 @@
               <li><i class="fa-solid fa-circle-check"></i><span>Ask for the discount when booking</span></li>
             </ul>
           </article>
-          <article class="card price-card">
-            <div class="pill"><i class="fa-solid fa-comments"></i> Custom quote</div>
-            <h3>Large Sites & Factories</h3>
-            <div class="price">On Quote</div>
-            <p class="small">For commercial and industrial locations, final price is confirmed after details or site review.</p>
-            <ul class="list">
-              <li><i class="fa-solid fa-circle-check"></i><span>For offices, factories, and larger arrays</span></li>
-              <li><i class="fa-solid fa-circle-check"></i><span>Can be scheduled as recurring service</span></li>
-              <li><i class="fa-solid fa-circle-check"></i><span>WhatsApp is the fastest way to start</span></li>
+          <article class="card estimate-card">
+            <div class="pill"><i class="fa-solid fa-calculator"></i> Estimated Pricing</div>
+            <h3>Quick Estimate</h3>
+            <p class="small">Reference prices for common solar cleaning jobs.</p>
+            <ul class="estimate-list">
+              <li><span>Per Panel</span><span>Rs. 50 - 100</span></li>
+              <li><span>5KW System</span><span>Rs. 2500 - 4000</span></li>
+              <li><span>10KW System</span><span>Rs. 5000 - 8000</span></li>
             </ul>
           </article>
         </div>
