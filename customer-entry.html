@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FNBSOLARWASH Live Customer Data</title>
+  <style>
+    :root {
+      --bg: #07111b;
+      --panel: rgba(12, 25, 40, 0.92);
+      --panel-2: rgba(16, 33, 52, 0.92);
+      --line: rgba(138, 190, 255, 0.16);
+      --text: #f3f8ff;
+      --muted: #9cb1c7;
+      --accent: #42d6a4;
+      --accent-2: #2fb3ff;
+      --warn: #ffd166;
+      --danger: #ff7a7a;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(66, 214, 164, 0.15), transparent 28%),
+        radial-gradient(circle at top right, rgba(47, 179, 255, 0.16), transparent 24%),
+        linear-gradient(180deg, #05101a 0%, #0b1a28 100%);
+    }
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 28px 16px 40px;
+    }
+    .hero {
+      display: grid;
+      gap: 12px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(14, 31, 47, .94), rgba(8, 18, 30, .96));
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+    .eyebrow {
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 54px);
+      line-height: 1.05;
+    }
+    .subtitle {
+      margin: 0;
+      max-width: 860px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chip {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: #d9e6f4;
+      font-size: 13px;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+    }
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-head {
+      padding: 18px 20px;
+      background: linear-gradient(90deg, rgba(47, 179, 255, .14), rgba(66, 214, 164, .07));
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .card-head h2 { margin: 0; font-size: 18px; }
+    .card-body { padding: 20px; }
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .full { grid-column: 1 / -1; }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 7px;
+      color: #dce9f7;
+    }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid rgba(160, 200, 240, .18);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 12px 13px;
+      outline: none;
+      font-size: 14px;
+    }
+    textarea { min-height: 112px; resize: vertical; }
+    input::placeholder, textarea::placeholder { color: #8fa4ba; }
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(66, 214, 164, .7);
+      box-shadow: 0 0 0 4px rgba(66, 214, 164, .12);
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .primary { background: linear-gradient(135deg, var(--accent), #7bf0bf); color: #052114; }
+    .secondary { background: rgba(255,255,255,.08); color: var(--text); border: 1px solid rgba(255,255,255,.12); }
+    .ghost { background: rgba(47,179,255,.14); color: var(--text); border: 1px solid rgba(47,179,255,.24); }
+    .danger { background: rgba(255,122,122,.14); color: #ffdada; border: 1px solid rgba(255,122,122,.28); }
+    .note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .summary {
+      display: grid;
+      gap: 12px;
+    }
+    .stat {
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel-2);
+    }
+    .stat .k {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .stat .v {
+      font-size: 15px;
+      margin-top: 5px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+    .reminder {
+      border: 1px dashed rgba(255, 209, 102, .45);
+      background: rgba(255, 209, 102, .08);
+    }
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+    .record {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+    .record-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .record h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .due { background: rgba(255, 122, 122, .13); color: #ffdada; border: 1px solid rgba(255, 122, 122, .26); }
+    .soon { background: rgba(255, 209, 102, .12); color: #ffe9a5; border: 1px solid rgba(255, 209, 102, .26); }
+    .ok { background: rgba(66, 214, 164, .13); color: #b9ffe6; border: 1px solid rgba(66, 214, 164, .26); }
+    .record-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .search {
+      min-width: min(100%, 340px);
+      flex: 1 1 260px;
+    }
+    .empty {
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      text-align: center;
+      background: rgba(255,255,255,.02);
+    }
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .fields { grid-template-columns: 1fr; }
+      .hero, .card-body { padding: 16px; }
+      .card-head { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">FNBSOLARWASH</div>
+      <h1>Live Customer Data and Automatic Reminders</h1>
+      <p class="subtitle">
+        Save customer details after each cleaning, book the next visit, and let the page automatically flag reminders when a follow-up is due.
+        Data is stored in this browser so you can use it as a simple live website without setup.
+      </p>
+      <div class="topbar">
+        <div class="chips">
+          <div class="chip" id="stats_total">0 customers saved</div>
+          <div class="chip" id="stats_due">0 reminders due</div>
+          <div class="chip" id="stats_next">Next reminder: none</div>
+        </div>
+        <div class="toolbar">
+          <button class="ghost" id="enable_notifications" type="button">Enable browser reminders</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="card">
+        <div class="card-head">
+          <h2>Customer Entry</h2>
+        </div>
+        <div class="card-body">
+          <form id="customer_form">
+            <div class="fields">
+              <div>
+                <label for="customer_name">Customer Name</label>
+                <input id="customer_name" name="customer_name" type="text" placeholder="Enter customer name" required />
+              </div>
+              <div>
+                <label for="phone">Phone Number</label>
+                <input id="phone" name="phone" type="tel" placeholder="+92..." required />
+              </div>
+              <div>
+                <label for="email">Email Address</label>
+                <input id="email" name="email" type="email" placeholder="name@example.com" />
+              </div>
+              <div>
+                <label for="vehicle">Vehicle / Property</label>
+                <input id="vehicle" name="vehicle" type="text" placeholder="Car model, house, office, etc." />
+              </div>
+              <div>
+                <label for="service_date">Cleaning Date</label>
+                <input id="service_date" name="service_date" type="date" required />
+              </div>
+              <div>
+                <label for="service_type">Service Type</label>
+                <select id="service_type" name="service_type">
+                  <option>Solar panel wash</option>
+                  <option>Car wash</option>
+                  <option>Window cleaning</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div>
+                <label for="next_visit_date">Next Visit Date</label>
+                <input id="next_visit_date" name="next_visit_date" type="date" required />
+              </div>
+              <div>
+                <label for="next_visit_time">Next Visit Time</label>
+                <input id="next_visit_time" name="next_visit_time" type="time" required />
+              </div>
+              <div class="full">
+                <label for="service_notes">Service Notes</label>
+                <textarea id="service_notes" name="service_notes" placeholder="What was cleaned? Any issues found? Special notes?"></textarea>
+              </div>
+              <div class="full">
+                <label for="reminder_message">Reminder Message</label>
+                <input id="reminder_message" name="reminder_message" type="text" value="Please book for next visit so I can enter data online for your next reminder." />
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="primary" type="submit">Save Customer</button>
+              <button class="secondary" type="reset">Clear Form</button>
+            </div>
+            <div class="note">
+              This is a live browser-based version. When a next-visit time becomes due, the customer is highlighted automatically and the browser can show a reminder if notifications are enabled.
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <div class="stack">
+        <section class="card reminder">
+          <div class="card-head">
+            <h2>Reminder Status</h2>
+          </div>
+          <div class="card-body summary">
+            <div class="stat">
+              <div class="k">Automatic check</div>
+              <div class="v" id="auto_check">Running every 30 seconds while this page is open.</div>
+            </div>
+            <div class="stat">
+              <div class="k">Reminder text</div>
+              <div class="v">Please book for next visit</div>
+            </div>
+            <div class="stat">
+              <div class="k">Stored data</div>
+              <div class="v">Saved in this browser using local storage</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2>Saved Customers</h2>
+            <div class="toolbar">
+              <input class="search" id="search" type="search" placeholder="Search customer or phone..." />
+              <button class="secondary" id="export_btn" type="button">Export JSON</button>
+              <button class="danger" id="clear_btn" type="button">Clear All</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="list" id="records"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="footer">FNBSOLARWASH live customer reminder website</div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "fnbsolarwash_customers_v1";
+    const NOTIFIED_KEY = "fnbsolarwash_notified_v1";
+    const form = document.getElementById("customer_form");
+    const recordsEl = document.getElementById("records");
+    const searchEl = document.getElementById("search");
+    const totalChip = document.getElementById("stats_total");
+    const dueChip = document.getElementById("stats_due");
+    const nextChip = document.getElementById("stats_next");
+    const enableNotificationsBtn = document.getElementById("enable_notifications");
+    const exportBtn = document.getElementById("export_btn");
+    const clearBtn = document.getElementById("clear_btn");
+
+    const state = {
+      customers: loadCustomers(),
+      notified: loadNotified()
+    };
+
+    function loadCustomers() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    function loadNotified() {
+      try {
+        return JSON.parse(localStorage.getItem(NOTIFIED_KEY)) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.customers));
+      localStorage.setItem(NOTIFIED_KEY, JSON.stringify(state.notified));
+    }
+
+    function toISODateTime(dateStr, timeStr) {
+      return new Date(`${dateStr}T${timeStr}:00`);
+    }
+
+    function escapeHtml(text) {
+      return String(text || "").replace(/[&<>"']/g, (ch) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[ch]));
+    }
+
+    function formatDateTime(value) {
+      const d = new Date(value);
+      return new Intl.DateTimeFormat(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }).format(d);
+    }
+
+    function minutesDiff(target) {
+      return Math.round((target.getTime() - Date.now()) / 60000);
+    }
+
+    function getStatus(customer) {
+      const target = toISODateTime(customer.next_visit_date, customer.next_visit_time);
+      const diff = minutesDiff(target);
+      if (diff <= 0) return { label: "Due now", cls: "due" };
+      if (diff <= 1440) return { label: "Due soon", cls: "soon" };
+      return { label: "Scheduled", cls: "ok" };
+    }
+
+    function render() {
+      const query = searchEl.value.trim().toLowerCase();
+      const now = new Date();
+      const filtered = state.customers
+        .slice()
+        .sort((a, b) => new Date(a.next_visit_date + "T" + a.next_visit_time) - new Date(b.next_visit_date + "T" + b.next_visit_time))
+        .filter((customer) => {
+          const blob = [
+            customer.customer_name,
+            customer.phone,
+            customer.email,
+            customer.vehicle,
+            customer.service_type,
+            customer.service_notes
+          ].join(" ").toLowerCase();
+          return blob.includes(query);
+        });
+
+      const dueCount = state.customers.filter((customer) => {
+        return toISODateTime(customer.next_visit_date, customer.next_visit_time) <= now;
+      }).length;
+
+      const nextDue = state.customers
+        .filter((customer) => toISODateTime(customer.next_visit_date, customer.next_visit_time) > now)
+        .sort((a, b) => toISODateTime(a.next_visit_date, a.next_visit_time) - toISODateTime(b.next_visit_date, b.next_visit_time))[0];
+
+      totalChip.textContent = `${state.customers.length} customer${state.customers.length === 1 ? "" : "s"} saved`;
+      dueChip.textContent = `${dueCount} reminder${dueCount === 1 ? "" : "s"} due`;
+      nextChip.textContent = nextDue
+        ? `Next reminder: ${new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(toISODateTime(nextDue.next_visit_date, nextDue.next_visit_time))}`
+        : "Next reminder: none";
+
+      if (!filtered.length) {
+        recordsEl.innerHTML = '<div class="empty">No customers saved yet. Add the first booking on the left.</div>';
+        return;
+      }
+
+      recordsEl.innerHTML = filtered.map((customer) => {
+        const status = getStatus(customer);
+        const reminderTime = toISODateTime(customer.next_visit_date, customer.next_visit_time);
+        return `
+          <article class="record">
+            <div class="record-top">
+              <div>
+                <h3>${escapeHtml(customer.customer_name)}</h3>
+                <div class="meta">
+                  ${escapeHtml(customer.phone)}${customer.email ? " • " + escapeHtml(customer.email) : ""}<br>
+                  ${escapeHtml(customer.service_type)} • Cleaned ${escapeHtml(customer.service_date)}<br>
+                  Next visit: ${escapeHtml(formatDateTime(reminderTime))}
+                </div>
+              </div>
+              <div class="badge ${status.cls}">${status.label}</div>
+            </div>
+            ${customer.vehicle ? `<div class="meta"><strong>Vehicle / Property:</strong> ${escapeHtml(customer.vehicle)}</div>` : ""}
+            ${customer.service_notes ? `<div class="meta"><strong>Notes:</strong> ${escapeHtml(customer.service_notes)}</div>` : ""}
+            <div class="meta"><strong>Reminder:</strong> ${escapeHtml(customer.reminder_message)}</div>
+            <div class="record-actions">
+              <button class="secondary" type="button" data-copy="${customer.id}">Copy reminder</button>
+              <button class="danger" type="button" data-delete="${customer.id}">Delete</button>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const id = button.getAttribute("data-copy");
+          const customer = state.customers.find((item) => item.id === id);
+          if (!customer) return;
+          const msg = `${customer.reminder_message} - ${customer.customer_name}, ${customer.phone}`;
+          try {
+            await navigator.clipboard.writeText(msg);
+            button.textContent = "Copied";
+            setTimeout(() => button.textContent = "Copy reminder", 1200);
+          } catch {
+            alert(msg);
+          }
+        });
+      });
+
+      document.querySelectorAll("[data-delete]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const id = button.getAttribute("data-delete");
+          state.customers = state.customers.filter((item) => item.id !== id);
+          state.notified = state.notified.filter((item) => item !== id);
+          saveState();
+          render();
+        });
+      });
+    }
+
+    function checkReminders() {
+      const now = Date.now();
+      let changed = false;
+
+      state.customers.forEach((customer) => {
+        const reminderTime = toISODateTime(customer.next_visit_date, customer.next_visit_time).getTime();
+        if (reminderTime <= now && !state.notified.includes(customer.id)) {
+          state.notified.push(customer.id);
+          changed = true;
+          const message = `${customer.customer_name} has a due reminder for next visit.`;
+          if ("Notification" in window && Notification.permission === "granted") {
+            new Notification("FNBSOLARWASH reminder", {
+              body: `${customer.reminder_message} ${customer.phone}`,
+              tag: customer.id
+            });
+          }
+          alert(message + "\n" + customer.reminder_message);
+        }
+      });
+
+      if (changed) saveState();
+      render();
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const customer = {
+        id: crypto.randomUUID(),
+        customer_name: document.getElementById("customer_name").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        vehicle: document.getElementById("vehicle").value.trim(),
+        service_date: document.getElementById("service_date").value,
+        service_type: document.getElementById("service_type").value,
+        next_visit_date: document.getElementById("next_visit_date").value,
+        next_visit_time: document.getElementById("next_visit_time").value,
+        service_notes: document.getElementById("service_notes").value.trim(),
+        reminder_message: document.getElementById("reminder_message").value.trim() || "Please book for next visit so I can enter data online for your next reminder."
+      };
+
+      state.customers.unshift(customer);
+      saveState();
+      form.reset();
+      document.getElementById("reminder_message").value = "Please book for next visit so I can enter data online for your next reminder.";
+      render();
+    });
+
+    form.addEventListener("reset", () => {
+      setTimeout(() => {
+        document.getElementById("reminder_message").value = "Please book for next visit so I can enter data online for your next reminder.";
+      }, 0);
+    });
+
+    searchEl.addEventListener("input", render);
+
+    enableNotificationsBtn.addEventListener("click", async () => {
+      if (!("Notification" in window)) {
+        alert("Your browser does not support notifications.");
+        return;
+      }
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        alert("Browser reminders are enabled.");
+      }
+    });
+
+    exportBtn.addEventListener("click", () => {
+      const blob = new Blob([JSON.stringify(state.customers, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "fnbsolarwash-customers.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    clearBtn.addEventListener("click", () => {
+      if (!confirm("Clear all saved customer records from this browser?")) return;
+      state.customers = [];
+      state.notified = [];
+      saveState();
+      render();
+    });
+
+    render();
+    checkReminders();
+    setInterval(checkReminders, 30000);
+  </script>
+</body>
+</html>
